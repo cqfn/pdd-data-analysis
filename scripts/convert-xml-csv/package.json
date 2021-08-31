@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "github-api": "^3.4.0",
     "json2csv": "^5.0.6",
     "xml-js": "^1.6.11"
   }
