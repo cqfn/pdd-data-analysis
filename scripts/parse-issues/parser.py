@@ -16,16 +16,18 @@ def write_json(new_data, filename='all-issues.json'):
         jsonFile.seek(0)
         json.dump(file_data, jsonFile, indent=4)
 
+
 def extendUrlsData(url):
     data = requests.get(url, headers=headers).json()
     return data
+
 
 def extend(field, filename='all-issues.json'):
     with open(filename, 'r+') as jsonFile:
         file_data = json.load(jsonFile)
         for i in file_data['issues']:
             try:
-                print('Previous  ',i[field])
+                print('Previous  ', i[field])
                 i[field] = extendUrlsData(i[field])
                 print('Current  ', i[field])
             except Exception:
@@ -41,7 +43,8 @@ def getIssuesData():
     for i in data:
         # noinspection PyBroadException
         try:
-            issueLink = i['issueLink'].replace('https://github.com/', query_url, 1)
+            issueLink = i['issueLink'].replace(
+                'https://github.com/', query_url, 1)
             r = requests.get(issueLink, headers=headers).json()
             countCollected = countCollected + 1
             write_json(r)
@@ -53,5 +56,7 @@ def getIssuesData():
 # print('Total issues ', countLost + countCollected)
 # print('Issues with link ', countCollected)
 # print('Puzzles without link ', countLost)
+
+
 extend('events_url')
 extend('labels_url')
