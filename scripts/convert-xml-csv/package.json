@@ -1,7 +1,3 @@
-{
-  "dependencies": {
-    "github-api": "^3.4.0",
-    "json2csv": "^5.0.6",
-    "xml-js": "^1.6.11"
-  }
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:27cca608622504e087366d6751fd8a40fafd86bb94c6d4c51e4a7b934f37a856
+size 106
