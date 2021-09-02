@@ -1,7 +1,9 @@
 const fs = require('fs');
 const GitHub = require('github-api');
 
-const gh = new GitHub({username: 'mbao01', token: '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'});
+const gh = new GitHub({
+    token: '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'
+});
 async function getIssueData(issueLink, cache) {
     if (issueLink) {
         const match = issueLink.match(/(https?:\/\/github.com\/)(.+)\/(.+)(\/issues\/)([0-9]+)/);
@@ -41,11 +43,12 @@ async function getIssueData(issueLink, cache) {
 
                 return {};
             }).catch((e) => {
-                console.log('Error C', e.response.status);
-                if (e.response.status === 403) {
-                    throw Error(e.message);
+                console.log('B: ', e?.response?.status);
+                if (e?.response?.status === 403) {
+                    return {done: false};
+                } else {
+                    return {}
                 }
-                return {};
             });
 
             const eventsData = await issues.listIssueEvents(issueNo).then(async ({ data: events }) => {
@@ -77,25 +80,27 @@ async function getIssueData(issueLink, cache) {
                                     }
                                 }
                             }).catch((e) => {
-                                console.log('Error B', e.message);
-                                if (e.response.status === 403) {
-                                    throw Error(e.message);
+                                console.log('C: ', e?.response?.status);
+                                if (e?.response?.status === 403) {
+                                    return {done: false};
+                                } else {
+                                    return {}
                                 }
-                                return {};
                             });
                         }
                     }
                 }
                 return data;
             }).catch((e) => {
-                console.log('Error A', e.message);
-                if (e.response.status === 403) {
-                    throw Error(e.message);
+                console.log('A: ', e?.response?.status);
+                if (e?.response?.status === 403) {
+                    return { done: false };
+                } else {
+                    return {}
                 }
-                return {};
             });
 
-            return {...issueData, ...eventsData, done: true };
+            return {done: true, ...issueData, ...eventsData };
         }
     }
     return {};
@@ -112,13 +117,23 @@ function processIssueEvent(event) {
 
 async function main() {
     const puzzles = require('../../data/all-puzzles.json');
+    // const e0 = require('../../data/extended-issues-0.json');
+    // const e1 = require('../../data/extended-issues-1.json');
+    // const e2 = require('../../data/extended-issues-2.json');
+    //
+    // const e0Arr = e0.map(p => p.id);
+    // const e1Arr = e1.map(p => p.id);
+    // const e2Arr = e2.map(p => p.id);
+    //
+    // const filtered = puzzles.filter((p) => !(e0Arr.includes(p.id) || e1Arr.includes(p.id) || e2Arr.includes(p.id)));
+    
     const cache = { issues: {}, repos: {} };
-    const issues = await Promise.all((puzzles).map(async (puzzle) => {
+    const issues = await Promise.all((puzzles.slice(1100, 1200)).map(async (puzzle) => {
         const data = await getIssueData(puzzle.issueLink, cache);
-        return {done: false, ...data, ...puzzle};
+        return { done: false, ...data, ...puzzle };
     }));
 
-    fs.writeFileSync('../../data/extended-issues.json', JSON.stringify(issues, null, 2), 'utf8');
+    fs.writeFileSync('../../data/extended.json', JSON.stringify(issues, null, 2), 'utf8');
 }
 
 main();
