@@ -52,4 +52,7 @@ The example of entity stored in the dataset is shown below
 The detailed description of each field can be obtained via official guide [Github Issues API](https://docs.github.com/en/rest/issues/issues#get-an-issue). 
 
 # Additional fields
-The original work contains derived attributes, which are not presented in the dataset. This state of the dataset is meant to limit bias from our side and represent the original data without any preprocessing. Section 3 of the paper fully describes the way of deriving attributes, so we are encouraging interested researchers to derive them by themselves and compare them with the statistics shown in the same section,
+The original work contains derived attributes, which are not presented in the dataset. This state of the dataset is meant to limit bias from our side and represent the original data without any preprocessing. Section 3 of the paper fully describes the way of deriving attributes, so we are encouraging interested researchers to derive them by themselves and compare them with the statistics shown in the same section.
+
+# Licensing
+This project's license is [TBD](LICENCE).
